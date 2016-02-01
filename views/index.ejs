@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+  <script type="text/javascript" src="angular.min.js"></script>
+  <script type="text/javascript" src="angular-route.min.js"></script>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <div ng-app="myApp">
+      <div ng-controller="myController">
+        <form ng-submit="signUp()">
+          <div> Claim Number: <input type="text" ng-model="claimNumber"></div>
+          <div> Claimant First Name: <input type="text" ng-model="claimantFirstName"></div>
+          <div> Claimant Last Name: <input type="text" ng-model="claimantLastName"></div>
+          <div> Status: <input type="text" ng-model="status"></div>
+          <div> Loss Date: <input type="text" ng-model="lossDate"></div>
+          <div> Cause of Loss: <input type="text" ng-model="causeOfLoss"></div>
+          <div> Reported Date: <input type="text" ng-model="reportedDate"></div>
+          <div> Loss Description: <input type="text" ng-model="lossDescription"></div>
+          <div> Loss Info: <input type="text" ng-model="lossInfo"></div>
+          <div> Assigned Adjuster ID: <input type="text" ng-model="assignedAdjusterID"></div>
+          <div> Vin: <input type="text" ng-model="vin"></div>
+          <div> Model Year: <input type="text" ng-model="modelYear"></div>
+          <div> Make Description: <input type="text" ng-model="makeDescription"></div>
+          <div> Engine Description: <input type="text" ng-model="engineDescription"></div>
+          <div> License Plate: <input type="text" ng-model="licPlate"></div>
+          <div> License State: <input type="text" ng-model="licState"></div>
+          <div> License Plate Expiry Date: <input type="text" ng-model="licPlateExpDate"></div>
+          <div> Damage Description: <input type="text" ng-model="damageDescription"></div>
+          <div> Mileage: <input type="text" ng-model="mileage"></div>
+          <div> <button type="submit">Sign Up</button></div>
+        </form>
+      </div>
+    </div>
+    <script>
+      var app = angular.module("myApp",[]);
+      app.controller('myController', function($scope, $http){
+        $scope.signUp = function(){
+          var data = JSON.stringify({
+            mitchellClaim: {
+              claimNumber: $scope.claimNumber,
+              claimantFirstName: $scope.claimantFirstName,
+              claimantLastName: $scope.claimantLastName,
+              status: $scope.status,
+              lossDate: $scope.lossDate,
+              lossInfo: {
+                causeOfLoss: $scope.causeOfLoss,
+                reportedDate: $scope.reportedDate,
+                lossDescription: $scope.lossDescription
+              },
+              assignedAdjusterID: $scope.assignedAdjusterID,
+              vehicles: {
+                vehicleDetails:{
+                  vin: $scope.vin,
+                  modelYear: $scope.modelYear,
+                  makeDescription: $scope.makeDescription,
+                  modelDescription: $scope.modelDescription,
+                  engineDescription: $scope.engineDescription,
+                  exteriorColor: $scope.exteriorColor,
+                  licPlate: $scope.licPlate,
+                  licPlateState: $scope.licPlateState,
+                  licPlateExpDate: $scope.licPlateExpDate,
+                  damageDescription: $scope.damageDescription,
+                  mileage: $scope.mileage
+                }
+              }
+            }
+          });
+          $http.post("/", data).success(function(data, status) {
+          })
+        }
+      });
+    </script>
+  </body>
+</html>
